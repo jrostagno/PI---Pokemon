@@ -3,19 +3,29 @@ const{Pokemon,Tipo}= require('../db.js')
 const axios = require('axios');
 
 
+// OBTENGO LOS 40 POKEMOSN DE LAS API 
 
-//OBTENGO UN ARRAY CON LOS 40 POKEMONES DE LA API DONDE TENGO SU NOMBRE Y LA URL CON SUS PROPIEDADES.
+const getOnlyPokeApi = async()=>{
+    
+        const infoApi = await axios.get("https://pokeapi.co/api/v2/pokemon");
+    
+        const infoApiPokemons = infoApi.data.results;
+     
+        const infoApi1 = await axios.get(infoApi.data.next);
+     
+        const infoApiPokemons1 = infoApi1.data.results;
+     
+        const allPokeInfoApi =  infoApiPokemons.concat(infoApiPokemons1);
+
+        return allPokeInfoApi;
+
+}
+
+
+//OBTENGO UN ARRAY CON LOS 40 POKEMONES DE LA API DONDE TENGO SU NOMBRE Y LA URL CON SUS PROPIEDADES. //  LOS DE LA BASE DE DATOS 
 const allPokemons = async()=>{
 
-    const infoApi = await axios.get("https://pokeapi.co/api/v2/pokemon");
-
-    const infoApiPokemons = infoApi.data.results;
- 
-    const infoApi1 = await axios.get(infoApi.data.next);
- 
-    const infoApiPokemons1 = infoApi1.data.results;
- 
-    const allPokeInfo = await infoApiPokemons.concat(infoApiPokemons1);
+    const pokeApi= await getOnlyPokeApi();
  
     const infoBD = await Pokemon.findAll({
       includes:{
@@ -28,9 +38,9 @@ const allPokemons = async()=>{
       }
     });
  
-    const baseDatos = [...infoBD, ...allPokeInfo];
-  console.log(baseDatos)
- // return baseDatos;
+    const baseDatos = [...infoBD, ...pokeApi];
+ console.log(baseDatos)
+  return baseDatos;
 
 }
 
@@ -68,8 +78,8 @@ const getInfo = async () => {
         })
     }
    }
-  // console.log(infoDetail)
-   return infoDetail;
+ //  console.log(infoDetail)
+  return infoDetail;
 
  };      
 
@@ -78,56 +88,62 @@ const getInfo = async () => {
 
  const pokemonDetail = async (idPokemon) => {
   
-
-
    try{
         const pokemon = await axios.get(`https://pokeapi.co/api/v2/pokemon/${idPokemon}`)
 
-        const  data= pokemon.data;
-    
-        const pokeID= {
-            id: data.id,
-            name: data.name,
-            hp: data.stats[0].base_stat,
-            strength: data.stats[1].base_stat,
-            defense: data.stats[2].base_stat,
-            speed: data.stats[5].base_stat,
-            height: data.height,
-            weight: data.weight,
-            image: data.sprites.front_default,
-            types: data.types.map((el) => el.type.name),
-          };
-    
-        return pokeID
-        // console.log(pokeID)
-    
-    }  catch(err) {};
+        if(pokemon){
+            
+            const  data= pokemon.data;
+        
+            const pokeID= {
+                id: data.id,
+                name: data.name,
+                hp: data.stats[0].base_stat,
+                strength: data.stats[1].base_stat,
+                defense: data.stats[2].base_stat,
+                speed: data.stats[5].base_stat,
+                height: data.height,
+                weight: data.weight,
+                image: data.sprites.front_default,
+                types: data.types.map((el) => el.type.name),
+              };
+        
+            return pokeID
+            
+        }else{
 
-        try{
             const pokemonBaseDato= await Pokemon.findByPk(idPokemon,{include: Tipo});
 
-            const pokeDataBase= {
+            if(pokemonBaseDato){
 
-                id: pokeDataBase.id,
-                name: pokeDataBase.name,
-                hp: pokeDataBase.hp,
-                strength:pokeDataBase.strength,
-                defense: pokeDataBase.defense,
-                speed: pokeDataBase.speed,
-                height: pokeDataBase.height,
-                weight: pokeDataBase.weight,
-                image: "https://media.giphy.com/media/DRfu7BT8ZK1uo/giphy.gif",
-                type: pokeDataBase.Tipo.map(el=>el.name)
-               
+                const pokeDataBase= {
+            
+                    id: pokeDataBase.id,
+                    name: pokeDataBase.name,
+                    hp: pokeDataBase.hp,
+                    strength:pokeDataBase.strength,
+                    defense: pokeDataBase.defense,
+                    speed: pokeDataBase.speed,
+                    height: pokeDataBase.height,
+                    weight: pokeDataBase.weight,
+                    image: "https://media.giphy.com/media/DRfu7BT8ZK1uo/giphy.gif",
+                    type: pokeDataBase.Tipo.map(el=>el.name)
+                   
+                }
+        
+                return pokeDataBase;
+
             }
 
-            return pokeDataBase;
-
-        }catch(err){
-            return {};
         }
+        // console.log(pokeID)
+    
+    } catch (err){
+
       
 
+    }
+        
     }
 
 
@@ -145,6 +161,7 @@ const getInfo = async () => {
     allPokemons,
     getInfo,
     pokemonDetail,
+    getOnlyPokeApi,
 
  };
 
