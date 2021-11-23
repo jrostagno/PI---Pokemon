@@ -16,13 +16,13 @@ const getOnlyPokeApi = async()=>{
         const infoApiPokemons1 = infoApi1.data.results;
      
         const allPokeInfoApi =  infoApiPokemons.concat(infoApiPokemons1);
-
+// console.log(allPokeInfoApi)
         return allPokeInfoApi;
 
 }
 
 
-//OBTENGO UN ARRAY CON LOS 40 POKEMONES DE LA API DONDE TENGO SU NOMBRE Y LA URL CON SUS PROPIEDADES. //  LOS DE LA BASE DE DATOS 
+//OBTENGO UN ARRAY CON LOS 40 POKEMONES DE LA API  + LOS CREADOS DE LA BASE DE DATOS 
 const allPokemons = async()=>{
 
     const pokeApi= await getOnlyPokeApi();
@@ -37,9 +37,11 @@ const allPokemons = async()=>{
  
       }
     });
+
+  //console.log(infoBD)
  
     const baseDatos = [...infoBD, ...pokeApi];
- console.log(baseDatos)
+ //console.log(baseDatos)
   return baseDatos;
 
 }
@@ -73,86 +75,112 @@ const getInfo = async () => {
 
           name: baseDatos[i].name,
           img: "https://media.giphy.com/media/DRfu7BT8ZK1uo/giphy.gif",
-          //types:baseDatos[i].Tipo.map(el=>)
+         // types:baseDatos[i].types.map(el=>)
           strength:baseDatos[i].strength
         })
     }
    }
- //  console.log(infoDetail)
+   //console.log(infoDetail)
   return infoDetail;
 
- };      
+ };   
+ 
+ 
+
+ // FUNCION NOS DA EL DETALLE PARA LA RUTA PRINCIPAL SOLO DESDE POKE API -IDE
 
 
- // FUNCION NOS DA EL DETALLE DE UN POKEMON EN PARTICULAR  POR ID
+ const InfoDetailPokeApi = async()=> {
+
+      const infoPokeApi = await getOnlyPokeApi();
+
+      let detailPoke =[];
+
+      for(let i=0; i< infoPokeApi.length ; i++){
+
+
+        const poke = await axios.get(infoPokeApi[i].url)
+        const datos= poke.data
+      
+        detailPoke.push({
+            name: datos.name,
+            img: datos.sprites.front_default,
+            types: datos.types.map(el=>el.type.name),
+            strength: datos.stats[1].base_stat
+        })
+
+      }
+
+     // console.log(detailPoke)
+      return detailPoke;
+
+ }
+
+
+ // FUNCION NOS DA EL DETALLE DE UN POKEMON DE API EN PARTICULAR  POR ID
 
  const pokemonDetail = async (idPokemon) => {
-  
-   try{
-        const pokemon = await axios.get(`https://pokeapi.co/api/v2/pokemon/${idPokemon}`)
+   const pokemon = await axios.get(
+     `https://pokeapi.co/api/v2/pokemon/${idPokemon}`
+   );
+   // console.log(pokemon);
+   if (pokemon) {
+     const data = pokemon.data;
 
-        if(pokemon){
-            
-            const  data= pokemon.data;
-        
-            const pokeID= {
-                id: data.id,
-                name: data.name,
-                hp: data.stats[0].base_stat,
-                strength: data.stats[1].base_stat,
-                defense: data.stats[2].base_stat,
-                speed: data.stats[5].base_stat,
-                height: data.height,
-                weight: data.weight,
-                image: data.sprites.front_default,
-                types: data.types.map((el) => el.type.name),
-              };
-        
-            return pokeID
-            
-        }else{
+     const pokeID = {
+       id: data.id,
+       name: data.name,
+       hp: data.stats[0].base_stat,
+       strength: data.stats[1].base_stat,
+       defense: data.stats[2].base_stat,
+       speed: data.stats[5].base_stat,
+       height: data.height,
+       weight: data.weight,
+       image: data.sprites.front_default,
+       types: data.types.map((el) => el.type.name),
+     };
 
-            const pokemonBaseDato= await Pokemon.findByPk(idPokemon,{include: Tipo});
+     return pokeID;
+   }else{
 
-            if(pokemonBaseDato){
+    return [];
+   }
+ };
 
-                const pokeDataBase= {
-            
-                    id: pokeDataBase.id,
-                    name: pokeDataBase.name,
-                    hp: pokeDataBase.hp,
-                    strength:pokeDataBase.strength,
-                    defense: pokeDataBase.defense,
-                    speed: pokeDataBase.speed,
-                    height: pokeDataBase.height,
-                    weight: pokeDataBase.weight,
-                    image: "https://media.giphy.com/media/DRfu7BT8ZK1uo/giphy.gif",
-                    type: pokeDataBase.Tipo.map(el=>el.name)
-                   
-                }
-        
-                return pokeDataBase;
-
-            }
-
+ // FUNCION QUE DA EL DETALLE DE POKEMON CREADO
+  const pokeCreatedDetail = (idPokemon) => {
+    return Pokemon.findOne({
+      where: {
+        id: idPokemon,
+      },
+      include: {
+        model: Tipo,
+        attributes:['name'],
+        through:{
+            attributes:[],
         }
-        // console.log(pokeID)
-    
-    } catch (err){
+      },
+    }).then((pokemon) => {
+      if (!pokemon) {
+        return [];
+      }
+      return {
+        id: pokemon.dataValues.id,
+        name: pokemon.dataValues.name,
+        hp: pokemon.dataValues.hp,
+        strength: pokemon.dataValues.strength,
+        defense: pokemon.dataValues.defense,
+        speed: pokemon.dataValues.speed,
+        height: pokemon.dataValues.height,
+        weight: pokemon.dataValues.weight,
+        image: "https://media.giphy.com/media/DRfu7BT8ZK1uo/giphy.gif",
+        type: pokemon.dataValues.Tipos.map((el) => el.name)
+      };
+    });
+  };
 
-      
 
-    }
-        
-    }
-
-
-
-
-
-
-
-
+ 
 
 
 
@@ -162,6 +190,8 @@ const getInfo = async () => {
     getInfo,
     pokemonDetail,
     getOnlyPokeApi,
+    InfoDetailPokeApi,
+    pokeCreatedDetail,
 
  };
 
