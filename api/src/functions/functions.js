@@ -75,7 +75,7 @@ const getInfo = async () => {
 
           name: baseDatos[i].name,
           img: "https://media.giphy.com/media/DRfu7BT8ZK1uo/giphy.gif",
-         // types:baseDatos[i].types.map(el=>)
+          types:baseDatos[i].Tipos.map(el=>el.name),
           strength:baseDatos[i].strength
         })
     }
@@ -90,31 +90,26 @@ const getInfo = async () => {
  // FUNCION NOS DA EL DETALLE PARA LA RUTA PRINCIPAL SOLO DESDE POKE API -IDE
 
 
- const InfoDetailPokeApi = async()=> {
+ const InfoDetailPokeApi = async () => {
+   const infoPokeApi = await getOnlyPokeApi();
 
-      const infoPokeApi = await getOnlyPokeApi();
+   let detailPoke = [];
 
-      let detailPoke =[];
+   for (let i = 0; i < infoPokeApi.length; i++) {
+     const poke = await axios.get(infoPokeApi[i].url);
+     const datos = poke.data;
 
-      for(let i=0; i< infoPokeApi.length ; i++){
+     detailPoke.push({
+       name: datos.name,
+       img: datos.sprites.front_default,
+       types: datos.types.map((el) => el.type.name),
+       strength: datos.stats[1].base_stat,
+     });
+   }
 
-
-        const poke = await axios.get(infoPokeApi[i].url)
-        const datos= poke.data
-      
-        detailPoke.push({
-            name: datos.name,
-            img: datos.sprites.front_default,
-            types: datos.types.map(el=>el.type.name),
-            strength: datos.stats[1].base_stat
-        })
-
-      }
-
-     // console.log(detailPoke)
-      return detailPoke;
-
- }
+   // console.log(detailPoke)
+   return detailPoke;
+ };
 
 
  // FUNCION NOS DA EL DETALLE DE UN POKEMON DE API EN PARTICULAR  POR ID

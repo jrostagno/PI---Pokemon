@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const{Pokemon,Tipo}= require('../db.js')
 const axios = require('axios');
-const {allPokemons, pokemonDetail} = require('../functions/functions.js')
+const {allPokemons, pokemonDetail, InfoDetailPokeApi} = require('../functions/functions.js')
 
 const router = Router();
 
@@ -72,10 +72,8 @@ const router = Router();
 
      const pokemons = await allPokemons();
 
-     const pokeApi = pokemons.filter((poke) => poke.hasOwnProperty("url"));
-
-     if (!name) return res.status(200).send(pokeApi);
-
+     //const pokeApi = pokemons.filter((poke) => poke.hasOwnProperty("url"));
+     
      if (name) {
        for (let i = 0; i < pokemons.length; i++) {
          if (pokemons[i].name.toLowerCase() === name.toLowerCase()) {
@@ -84,6 +82,15 @@ const router = Router();
        }
        return res.status(404).send("Pokemon Not Found");
      }
+
+
+
+     const pokemonApiDetail = await InfoDetailPokeApi();
+
+     res.status(200).send(pokemonApiDetail)
+
+
+
    });
 
 
