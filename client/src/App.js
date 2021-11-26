@@ -10,7 +10,7 @@ import Home from "./components/Home";
 function App() {
   return (
     <BrowserRouter>
-      <div className="app">
+      <div className="App">
         <Switch>
           <Route exact path="/" component={LandingPage} />
 

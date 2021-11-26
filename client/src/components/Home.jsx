@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getPokemons } from "../actions";
+import { filterTypes, getCreated, getPokemons, getTypes } from "../actions";
 import { Link } from "react-router-dom";
 import Card from "./Card";
 import Paginado from "./Paginado";
@@ -9,6 +9,9 @@ import Paginado from "./Paginado";
 export default function Home() {
   const dispatch = useDispatch();
   const allPokemons = useSelector((state) => state.pokemons);
+  const initialAllpokemons = useSelector((state) => state.allPokemons);
+  const isLoading = useSelector((state) => state.loading);
+  const pokeTypes = useSelector((state) => state.pokeTypes);
 
   // PAGINADO
   // definimos estados Locales
@@ -21,7 +24,6 @@ export default function Home() {
     indexOfLastPokemon
   );
 
-  console.log(currentPage);
   const paginado = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
@@ -29,11 +31,22 @@ export default function Home() {
   // nos traemos el ilstados de pokemons cuando el componente se monta // enl segundo argumento se pasa de lo que depnde ese useEfffect (si dependo del dispach le paso el dispach, montate y ejecutate siempre y cuando lo tengas )
   useEffect(() => {
     dispatch(getPokemons());
+    dispatch(getTypes());
   }, [dispatch]);
 
   function handleClick(e) {
     e.preventDefault();
     dispatch(getPokemons());
+  }
+
+  function handleOnChangeCreated(e) {
+    e.preventDefault();
+    dispatch(getCreated(e.target.value));
+  }
+
+  function handleOnChangeFiltertype(e) {
+    e.preventDefault(e);
+    dispatch(filterTypes(e.target.value));
   }
 
   return (
@@ -53,12 +66,35 @@ export default function Home() {
           <option value="des">Descendente</option>
         </select>
 
-        <option value="type">Tipo de pokemon</option>
+        <option>Tipo de pokemon</option>
 
-        <select>
-          <option value="all">Todos</option>
-          <option value="created">Creados</option>
-          <option value="">Existentes</option>
+        <select
+          onChange={(e) => {
+            handleOnChangeCreated(e);
+          }}
+        >
+          <option value="All">All</option>
+          <option value="Created">Created</option>
+          <option value="Pokedex">Pokedex</option>
+        </select>
+
+        <select
+          onChange={(e) => {
+            handleOnChangeFiltertype(e);
+          }}
+        >
+          <option value="All">Types..</option>
+          {pokeTypes
+            .sort((a, b) => {
+              if (a.name < b.name) return -1;
+              if (a.name > b.name) return 1;
+              return 0;
+            })
+            .map((t) => (
+              <option value={t.name} key={t.name}>
+                {t.name}
+              </option>
+            ))}
         </select>
 
         <Paginado
@@ -67,18 +103,26 @@ export default function Home() {
           paginado={paginado}
         />
 
-        {currentPokemon &&
-          currentPokemon.map((poke) => {
+        {isLoading ? (
+          <h1>Cargando pokemones...</h1>
+        ) : (
+          currentPokemon &&
+          currentPokemon.map((poke, index) => {
             return (
-              <div className="cards">
+              <div className="cards" key={index}>
                 <div>
                   <Link to={"/home/" + poke.id}>
-                    <Card name={poke.name} image={poke.img} type={poke.types} />
+                    <Card
+                      name={poke.name}
+                      image={poke.image}
+                      type={poke.types}
+                    />
                   </Link>
                 </div>
               </div>
             );
-          })}
+          })
+        )}
       </div>
     </div>
   );
