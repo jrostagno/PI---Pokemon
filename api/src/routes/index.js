@@ -1,8 +1,7 @@
-const { Router } = require('express');
+const { Router } = require("express");
 
-const {getInfo,InfoDetailPokeApi,pokeCreatedDetail, allPokemons, getOnlyPokeApi} =require('../functions/functions')
-const pokemos = require('./pokemos.js');
-const types = require('./types.js');
+const pokemos = require("./pokemos.js");
+const types = require("./types.js");
 
 // Importar todos los routers;
 // Ejemplo: const authRouter = require('./auth.js');
@@ -10,21 +9,13 @@ const types = require('./types.js');
 
 const router = Router();
 
-router.use('/pokemons',pokemos);
+router.use("/pokemons", pokemos);
 
-router.use('/types',types);
-
-
-//allPokemons()
-
+router.use("/types", types);
 
 //pokeCreatedDetail('45052b95-e498-41a2-b4bf-b2047b81faac');
 
 // Configurar los routers
 // Ejemplo: router.use('/auth', authRouter);
-
-
- 
-
 
 module.exports = router;
