@@ -4,6 +4,9 @@ import {
   GET_TYPES,
   GET_POKEMONS,
   GET_POKEMONS_INIT,
+  FILTER_SORT,
+  GET_NAME_POKE,
+  POST_POKEMON,
 } from "../actions";
 
 const initialState = {
@@ -59,6 +62,55 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
         pokemons: pokeType,
+      };
+
+    case FILTER_SORT:
+      let sortFilter = [];
+
+      if (action.payload === "hight") {
+        sortFilter = state.allPokemons.sort((a, b) => {
+          return b.strength - a.strength;
+        });
+      }
+      if (action.payload === "low") {
+        sortFilter = state.allPokemons.sort((a, b) => {
+          return a.strength - b.strength;
+        });
+      }
+      if (action.payload === "asc") {
+        sortFilter = state.allPokemons.sort((a, b) => {
+          if (a.name.toLowerCase().trim() < b.name.toLowerCase().trim())
+            return -1;
+          if (a.name.toLowerCase().trim() > b.name.toLowerCase().trim())
+            return 1;
+          return 0;
+        });
+      }
+
+      if (action.payload === "des") {
+        sortFilter = state.allPokemons.sort((a, b) => {
+          if (a.name.toLowerCase().trim() < b.name.toLowerCase().trim())
+            return 1;
+          if (a.name.toLowerCase().trim() > b.name.toLowerCase().trim())
+            return -1;
+          return 0;
+        });
+      }
+
+      return {
+        ...state,
+        pokemons: sortFilter,
+      };
+
+    case GET_NAME_POKE:
+      return {
+        ...state,
+        pokemons: action.payload,
+      };
+
+    case POST_POKEMON:
+      return {
+        ...state,
       };
 
     default:

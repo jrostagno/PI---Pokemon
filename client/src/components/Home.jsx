@@ -1,10 +1,17 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { filterTypes, getCreated, getPokemons, getTypes } from "../actions";
+import {
+  filterSort,
+  filterTypes,
+  getCreated,
+  getPokemons,
+  getTypes,
+} from "../actions";
 import { Link } from "react-router-dom";
 import Card from "./Card";
 import Paginado from "./Paginado";
+import SearchBar from "./SearchBar";
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -17,6 +24,7 @@ export default function Home() {
   // definimos estados Locales
   const [currentPage, setCurrentPage] = useState(1); // guardamos en un estado local la pagina actual y esta seteada en 1 porque arranca en la primer pagina
   const [pokemonsPerPage, setPokemonsPerPage] = useState(12); // este estado local va a setear cuandos poke se cargan con pagina
+  const [render, setRender] = useState("");
   const indexOfLastPokemon = currentPage * pokemonsPerPage;
   const indexOfFirstPokemon = indexOfLastPokemon - pokemonsPerPage;
   const currentPokemon = allPokemons.slice(
@@ -45,9 +53,18 @@ export default function Home() {
   }
 
   function handleOnChangeFiltertype(e) {
-    e.preventDefault(e);
+    e.preventDefault();
     dispatch(filterTypes(e.target.value));
   }
+
+  function handleSort(e) {
+    e.preventDefault();
+    dispatch(filterSort(e.target.value));
+    setCurrentPage(1); // Seteo la pagina en (1)
+    setRender(`ordenado${e.target.value}`); // me sirve para cuadndo yo seteo el estado Local me modifique la pagina y se renderize
+  }
+
+  //  {valu , vl}
 
   return (
     <div>
@@ -60,13 +77,29 @@ export default function Home() {
       >
         Cargar todos personajes nuevamente
       </button>
+
+      <button
+        type="button"
+        onClick={() => {
+          console.log("pito");
+        }}
+      >
+        APLICAR
+      </button>
       <div>
-        <select>
-          <option value="asc">Ascendente</option>
-          <option value="des">Descendente</option>
+        <select
+          onChange={(e) => {
+            handleSort(e);
+          }}
+        >
+          <option value="All">Select by...</option>
+          <option value="asc">Ascending A-Z</option>
+          <option value="des">Descending Z-A</option>
+          <option value="hight">Hight Strength</option>
+          <option value="low">Low Strength</option>
         </select>
 
-        <option>Tipo de pokemon</option>
+        <span>Tipo de pokemon</span>
 
         <select
           onChange={(e) => {
@@ -102,6 +135,8 @@ export default function Home() {
           allPokemons={allPokemons.length}
           paginado={paginado}
         />
+
+        <SearchBar />
 
         {isLoading ? (
           <h1>Cargando pokemones...</h1>

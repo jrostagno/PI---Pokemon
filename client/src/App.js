@@ -4,7 +4,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 import LandingPage from "./components/LandingPage";
 import Home from "./components/Home";
-
+import PokemonCreated from "./components/PokemonCreated";
 // Switch cuando seteamos las rutas
 
 function App() {
@@ -13,7 +13,7 @@ function App() {
       <div className="App">
         <Switch>
           <Route exact path="/" component={LandingPage} />
-
+          <Route exact path="/pokemons" component={PokemonCreated} />
           <Route exact path="/home" component={Home} />
         </Switch>
       </div>
