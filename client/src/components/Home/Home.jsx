@@ -1,13 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  filterSort,
-  filterTypes,
-  getCreated,
-  getPokemons,
-  getTypes,
-} from "../../actions";
+import { getPokemons, getTypes, setFilters } from "../../actions";
 import { Link } from "react-router-dom";
 import Card from "../Card/Card";
 import Paginado from "../Paginado/Paginado";
@@ -17,15 +11,19 @@ import estilo from "./Home.module.css";
 export default function Home() {
   const dispatch = useDispatch();
   const allPokemons = useSelector((state) => state.pokemons);
-  const initialAllpokemons = useSelector((state) => state.allPokemons);
+
   const isLoading = useSelector((state) => state.loading);
   const pokeTypes = useSelector((state) => state.pokeTypes);
+
+  const [sortingBy, setSortingBy] = useState("All");
+  const [filterByPokedex, setFilterByPokedex] = useState("All");
+  const [filterByType, setFilterByType] = useState("All");
 
   // PAGINADO
   // definimos estados Locales
   const [currentPage, setCurrentPage] = useState(1); // guardamos en un estado local la pagina actual y esta seteada en 1 porque arranca en la primer pagina
-  const [pokemonsPerPage, setPokemonsPerPage] = useState(12); // este estado local va a setear cuandos poke se cargan con pagina
-  const [render, setRender] = useState("");
+  const pokemonsPerPage = 12; // este estado local va a setear cuandos poke se cargan con pagina
+
   const indexOfLastPokemon = currentPage * pokemonsPerPage;
   const indexOfFirstPokemon = indexOfLastPokemon - pokemonsPerPage;
   const currentPokemon = allPokemons.slice(
@@ -39,33 +37,50 @@ export default function Home() {
 
   // nos traemos el ilstados de pokemons cuando el componente se monta // enl segundo argumento se pasa de lo que depnde ese useEfffect (si dependo del dispach le paso el dispach, montate y ejecutate siempre y cuando lo tengas )
   useEffect(() => {
-    dispatch(getPokemons());
-    dispatch(getTypes());
-  }, [dispatch]);
+    if (!allPokemons.length) {
+      dispatch(getPokemons());
+    }
+    if (!pokeTypes.length) {
+      dispatch(getTypes());
+    }
+  }, [dispatch, allPokemons.length, pokeTypes.length]);
 
   function handleClick(e) {
     e.preventDefault();
     dispatch(getPokemons());
+    setCurrentPage(1);
   }
 
   function handleOnChangeCreated(e) {
-    e.preventDefault();
-    dispatch(getCreated(e.target.value));
+    setFilterByPokedex(e.target.value);
   }
 
   function handleOnChangeFiltertype(e) {
-    e.preventDefault();
-    dispatch(filterTypes(e.target.value));
+    setFilterByType(e.target.value);
   }
 
   function handleSort(e) {
-    e.preventDefault();
-    dispatch(filterSort(e.target.value));
-    setCurrentPage(1); // Seteo la pagina en (1)
-    setRender(`ordenado${e.target.value}`); // me sirve para cuadndo yo seteo el estado Local me modifique la pagina y se renderize
+    setSortingBy(e.target.value);
   }
 
-  //  {valu , vl}
+  function handleClickReset() {
+    dispatch(
+      setFilters({
+        sortingBy: "All",
+        filterByPokedex: "All",
+        filterByType: "All",
+      })
+    );
+    setSortingBy("All");
+    setFilterByPokedex("All");
+    setFilterByType("All");
+    setCurrentPage(1);
+  }
+
+  function handleClickAplicar() {
+    dispatch(setFilters({ sortingBy, filterByPokedex, filterByType }));
+    setCurrentPage(1);
+  }
 
   return (
     <div className={estilo.principal}>
@@ -82,17 +97,27 @@ export default function Home() {
 
       <button
         type="button"
-        onClick={() => {
-          console.log("pito");
+        onClick={(e) => {
+          handleClickAplicar(e);
         }}
       >
         APLICAR
       </button>
+      <button
+        type="button"
+        onClick={(e) => {
+          handleClickReset(e);
+        }}
+      >
+        RESET
+      </button>
+
       <div>
         <select
           onChange={(e) => {
             handleSort(e);
           }}
+          value={sortingBy}
         >
           <option value="All">Select by...</option>
           <option value="asc">Ascending A-Z</option>
@@ -105,6 +130,7 @@ export default function Home() {
           onChange={(e) => {
             handleOnChangeCreated(e);
           }}
+          value={filterByPokedex}
         >
           <option value="All">All</option>
           <option value="Created">Created</option>
@@ -115,6 +141,7 @@ export default function Home() {
           onChange={(e) => {
             handleOnChangeFiltertype(e);
           }}
+          value={filterByType}
         >
           <option value="All">Types..</option>
           {pokeTypes
@@ -141,7 +168,7 @@ export default function Home() {
           <h1>Cargando pokemones...</h1>
         ) : (
           <div className={estilo.pokeList}>
-            {currentPokemon &&
+            {currentPokemon.length ? (
               currentPokemon.map((poke, index) => (
                 <div className={estilo.card} key={index}>
                   <Card
@@ -151,7 +178,10 @@ export default function Home() {
                     id={poke.id}
                   />
                 </div>
-              ))}
+              ))
+            ) : (
+              <h1>No results</h1>
+            )}
           </div>
         )}
       </div>

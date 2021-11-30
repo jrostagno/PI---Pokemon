@@ -1,13 +1,12 @@
 import {
-  FILTER_CREATED,
-  FILTER_TYPES,
   GET_TYPES,
   GET_POKEMONS,
   GET_POKEMONS_INIT,
-  FILTER_SORT,
   GET_NAME_POKE,
   POST_POKEMON,
   GET_DETAILS,
+  RESET_DETAIL,
+  SET_FILTERS,
 } from "../actions";
 
 const initialState = {
@@ -15,7 +14,7 @@ const initialState = {
   allPokemons: [],
   loading: false,
   pokeTypes: [],
-  detail: [],
+  detail: {},
 };
 
 function rootReducer(state = initialState, action) {
@@ -33,81 +32,17 @@ function rootReducer(state = initialState, action) {
         loading: true,
       };
 
-    case FILTER_CREATED:
-      let filterPoke = [];
-      if (action.payload === "All") {
-        filterPoke = state.allPokemons;
-      }
-      if (action.payload === "Created") {
-        filterPoke = state.allPokemons.filter((el) => el.createInDataBase);
-      }
-      if (action.payload === "Pokedex") {
-        filterPoke = state.allPokemons.filter((el) => !el.createInDataBase);
-      }
-
-      return {
-        ...state,
-        pokemons: filterPoke,
-      };
-
     case GET_TYPES:
       return {
         ...state,
         pokeTypes: action.payload,
       };
 
-    case FILTER_TYPES:
-      const pokeType = state.allPokemons.filter((poke) =>
-        poke.types.includes(action.payload.toLowerCase())
-      );
-
-      return {
-        ...state,
-        pokemons: pokeType,
-      };
-
-    case FILTER_SORT:
-      let sortFilter = [];
-
-      if (action.payload === "hight") {
-        sortFilter = state.allPokemons.sort((a, b) => {
-          return b.strength - a.strength;
-        });
-      }
-      if (action.payload === "low") {
-        sortFilter = state.allPokemons.sort((a, b) => {
-          return a.strength - b.strength;
-        });
-      }
-      if (action.payload === "asc") {
-        sortFilter = state.allPokemons.sort((a, b) => {
-          if (a.name.toLowerCase().trim() < b.name.toLowerCase().trim())
-            return -1;
-          if (a.name.toLowerCase().trim() > b.name.toLowerCase().trim())
-            return 1;
-          return 0;
-        });
-      }
-
-      if (action.payload === "des") {
-        sortFilter = state.allPokemons.sort((a, b) => {
-          if (a.name.toLowerCase().trim() < b.name.toLowerCase().trim())
-            return 1;
-          if (a.name.toLowerCase().trim() > b.name.toLowerCase().trim())
-            return -1;
-          return 0;
-        });
-      }
-
-      return {
-        ...state,
-        pokemons: sortFilter,
-      };
-
     case GET_NAME_POKE:
       return {
         ...state,
         pokemons: action.payload,
+        loading: false,
       };
 
     case POST_POKEMON:
@@ -121,6 +56,71 @@ function rootReducer(state = initialState, action) {
         detail: action.payload,
       };
 
+    case RESET_DETAIL:
+      return {
+        ...state,
+        detail: {},
+      };
+    case SET_FILTERS:
+      const filteredPokemonsByType = state.allPokemons.filter(
+        (pokemon) =>
+          pokemon.types.includes(action.payload.filterByType) ||
+          action.payload.filterByType === "All"
+      );
+      let filteredByPokedex = filteredPokemonsByType;
+      if (action.payload.filterByPokedex !== "All") {
+        if (action.payload.filterByPokedex === "Created") {
+          filteredByPokedex = filteredByPokedex.filter(
+            (pokemon) => pokemon.createInDataBase
+          );
+        } else {
+          filteredByPokedex = filteredByPokedex.filter(
+            (pokemon) => !pokemon.createInDataBase
+          );
+        }
+      }
+      let sortedList = filteredByPokedex;
+
+      switch (action.payload.sortingBy) {
+        case "asc":
+          sortedList = sortedList.sort((a, b) => {
+            if (a.name.toLowerCase().trim() < b.name.toLowerCase().trim())
+              return -1;
+            if (a.name.toLowerCase().trim() > b.name.toLowerCase().trim())
+              return 1;
+            return 0;
+          });
+          break;
+
+        case "des":
+          sortedList = sortedList.sort((a, b) => {
+            if (a.name.toLowerCase().trim() < b.name.toLowerCase().trim())
+              return 1;
+            if (a.name.toLowerCase().trim() > b.name.toLowerCase().trim())
+              return -1;
+            return 0;
+          });
+          break;
+
+        case "hight":
+          sortedList = sortedList.sort((a, b) => {
+            return b.strength - a.strength;
+          });
+          break;
+
+        case "low":
+          sortedList = sortedList.sort((a, b) => {
+            return a.strength - b.strength;
+          });
+          break;
+        default:
+          break;
+      }
+
+      return {
+        ...state,
+        pokemons: sortedList,
+      };
     default:
       return state;
   }

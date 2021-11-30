@@ -7,7 +7,7 @@ export default function LandingPage() {
   return (
     <div className={estilo.landing}>
       <Link to="/home">
-        <img url={fondo} />
+        <img url={fondo} alt="background" />
         <button>Start</button>
       </Link>
     </div>

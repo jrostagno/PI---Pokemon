@@ -6,11 +6,10 @@ export const GET_TYPES = "GET_TYPES";
 export const GET_NAME_POKE = "GET_NAME_POKE";
 export const GET_DETAILS = "GET_DETAILS";
 
-export const FILTER_CREATED = "FILTER_CREATED";
-export const FILTER_TYPES = "FILTER_TYPES";
-export const FILTER_SORT = "FILTER_SORT";
-
 export const POST_POKEMON = "POST_POKEMON";
+
+export const RESET_DETAIL = "RESET_DETAIL";
+export const SET_FILTERS = "SET_FILTERS";
 
 export function getPokemons() {
   return async function (dispatch) {
@@ -26,13 +25,6 @@ export function getPokemons() {
   };
 }
 
-export function getCreated(payload) {
-  return {
-    type: FILTER_CREATED,
-    payload,
-  };
-}
-
 export function getTypes() {
   return async function (dispach) {
     let json = await axios.get("http://localhost:3001/types");
@@ -44,26 +36,15 @@ export function getTypes() {
   };
 }
 
-export function filterTypes(payload) {
-  return {
-    type: FILTER_TYPES,
-    payload,
-  };
-}
-
-export function filterSort(payload) {
-  return {
-    type: FILTER_SORT,
-    payload,
-  };
-}
-
 export function getNamePoke(name) {
-  return async function (dispach) {
+  return async function (dispatch) {
     try {
+      dispatch({
+        type: GET_POKEMONS_INIT,
+      });
+
       let json = await axios.get(`http://localhost:3001/pokemons?name=${name}`);
-      console.log(json);
-      return dispach({
+      return dispatch({
         type: GET_NAME_POKE,
         payload: json.data,
       });
@@ -74,8 +55,6 @@ export function getNamePoke(name) {
 }
 
 export function postPokemon(payload) {
-  console.log(payload);
-
   return async function (dispatch) {
     const response = await axios.post(
       "http://localhost:3001/pokemons",
@@ -87,6 +66,7 @@ export function postPokemon(payload) {
 }
 
 export function getDetail(id) {
+  console.log(id);
   return async function (dispacth) {
     try {
       let json = await axios.get(`http://localhost:3001/pokemons/${id}`);
@@ -97,5 +77,18 @@ export function getDetail(id) {
     } catch (error) {
       console.log(error);
     }
+  };
+}
+
+export function resetDetail() {
+  return {
+    type: RESET_DETAIL,
+  };
+}
+
+export function setFilters(payload) {
+  return {
+    type: SET_FILTERS,
+    payload,
   };
 }

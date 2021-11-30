@@ -17,6 +17,7 @@ export default function SearchBar() {
     e.preventDefault();
     dispatch(getNamePoke(name));
     setName(e.target.value);
+    
   }
 
   return (
