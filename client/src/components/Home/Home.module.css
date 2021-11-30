@@ -1,0 +1,21 @@
+.pokeList {
+  max-width: 800px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-gap: 24px;
+  padding: 20px;
+}
+
+.card {
+  display: flex;
+  justify-content: center;
+}
+
+.header {
+  color: yellowgreen;
+}
+
+.principal {
+  background-image: url("../../assets/dragon.jpg");
+}

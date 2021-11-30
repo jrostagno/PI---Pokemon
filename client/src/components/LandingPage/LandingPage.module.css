@@ -1,0 +1,21 @@
+.landing {
+  /* display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column-reverse;
+  min-height: calc(114vh - 88px);
+  background-image: url('../');
+  height: 937px; */
+  height: 100vh;
+  width: 100%;
+  /* background-size: 100% 100%; */
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: Center;
+  align-items: center;
+  background-image: url("../../assets/pokemonFondo1.jpg");
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column-reverse;
+}

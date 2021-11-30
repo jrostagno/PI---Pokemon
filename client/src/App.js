@@ -2,9 +2,10 @@ import "./App.css";
 
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
-import LandingPage from "./components/LandingPage";
-import Home from "./components/Home";
-import PokemonCreated from "./components/PokemonCreated";
+import LandingPage from "./components/LandingPage/LandingPage";
+import Home from "./components/Home/Home";
+import PokemonCreated from "./components/PokemonCreated/PokemonCreated";
+import Detail from "./components/Detail/Detail";
 // Switch cuando seteamos las rutas
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
           <Route exact path="/" component={LandingPage} />
           <Route exact path="/pokemons" component={PokemonCreated} />
           <Route exact path="/home" component={Home} />
+          <Route exact path="/home/:id" component={Detail} />
         </Switch>
       </div>
     </BrowserRouter>
