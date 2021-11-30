@@ -21,6 +21,7 @@ const getAllPokemons = async () => {
 
   pokemonesApi = await pokemonesApi.map((poke) => {
     return {
+      id: poke.data.id,
       name: poke.data.name,
       hp: poke.data.stats[0].base_stat,
       strength: poke.data.stats[1].base_stat,
@@ -44,9 +45,24 @@ const getAllPokemons = async () => {
       },
     },
   });
+  // console.log(infoDb);
+  const normalizeDb = infoDb.map((poke) => {
+    return {
+      id: poke.dataValues.id,
+      name: poke.dataValues.name,
+      hp: poke.dataValues.hp,
+      strength: poke.dataValues.strength,
+      defense: poke.dataValues.defense,
+      speed: poke.dataValues.speed,
+      height: poke.dataValues.height,
+      weight: poke.dataValues.weight,
+      image: "https://media.giphy.com/media/DRfu7BT8ZK1uo/giphy.gif",
+      types: poke.dataValues.Tipos.map((el) => el.name),
+      createInDataBase: poke.dataValues.createInDataBase,
+    };
+  });
 
-  const infoTotal = [...pokemonesApi, ...infoDb];
-
+  const infoTotal = [...pokemonesApi, ...normalizeDb];
   //console.log(infoTotal);
   return infoTotal;
 };
@@ -116,7 +132,7 @@ const pokeDetailName = async (name) => {
   if (pokemon) {
     const data = pokemon.data;
 
-    const pokeID = {
+    const pokeName = {
       id: data.id,
       name: data.name,
       hp: data.stats[0].base_stat,
@@ -129,7 +145,8 @@ const pokeDetailName = async (name) => {
       types: data.types.map((el) => el.type.name),
     };
 
-    return pokeID;
+    //console.log(pokeID);
+    return pokeName;
   } else {
     return [];
   }
@@ -168,10 +185,9 @@ const pokeCreatedDetail = (idPokemon) => {
 };
 
 module.exports = {
-  pokemonDetail,
-
   InfoDetailPokeApi,
   pokeCreatedDetail,
   pokeDetailName,
   getAllPokemons,
+  pokemonDetail,
 };

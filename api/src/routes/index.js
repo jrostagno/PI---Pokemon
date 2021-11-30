@@ -1,4 +1,5 @@
 const { Router } = require("express");
+const { getAllPokemons, pokeDetailName } = require("../functions/functions.js");
 
 const pokemos = require("./pokemos.js");
 const types = require("./types.js");
