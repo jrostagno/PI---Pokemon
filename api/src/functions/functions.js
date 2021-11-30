@@ -120,7 +120,7 @@ const pokemonDetail = async (idPokemon) => {
 
     return pokeID;
   } else {
-    return [];
+    return {};
   }
 };
 
@@ -141,23 +141,56 @@ const pokeDetailName = async (name) => {
       speed: data.stats[5].base_stat,
       height: data.height,
       weight: data.weight,
-      image: data.sprites.front_default,
+      image:
+        data.sprites.versions["generation-v"]["black-white"].animated
+          .front_default,
       types: data.types.map((el) => el.type.name),
     };
 
-    //console.log(pokeID);
-    return pokeName;
+    console.log(pokeName);
+    // return pokeName;
   } else {
     return [];
   }
 };
 
 // FUNCION QUE DA EL DETALLE DE POKEMON CREADO
-const pokeCreatedDetail = (idPokemon) => {
-  return Pokemon.findOne({
-    where: {
-      id: idPokemon,
-    },
+// const pokeCreatedDetail = (idPokemon) => {
+//   return Pokemon.findOne({
+//     where: {
+//       id: idPokemon,
+//     },
+//     include: {
+//       model: Tipo,
+//       attributes: ["name"],
+//       through: {
+//         attributes: [],
+//       },
+//     },
+//   }).then((pokemon) => {
+//     if (!pokemon) {
+//       return [];
+//     }
+//     return {
+//       id: pokemon.dataValues.id,
+//       name: pokemon.dataValues.name,
+//       hp: pokemon.dataValues.hp,
+//       strength: pokemon.dataValues.strength,
+//       defense: pokemon.dataValues.defense,
+//       speed: pokemon.dataValues.speed,
+//       height: pokemon.dataValues.height,
+//       weight: pokemon.dataValues.weight,
+//       image: "https://media.giphy.com/media/DRfu7BT8ZK1uo/giphy.gif",
+//       type: pokemon.dataValues.Tipos.map((el) => el.name),
+//     };
+//   });
+// };
+
+/// buscando BASE DATOS
+
+const pokefind = async (name) => {
+  const pokemon = await Pokemon.findOne({
+    where: { name: name },
     include: {
       model: Tipo,
       attributes: ["name"],
@@ -165,29 +198,29 @@ const pokeCreatedDetail = (idPokemon) => {
         attributes: [],
       },
     },
-  }).then((pokemon) => {
-    if (!pokemon) {
-      return [];
-    }
-    return {
-      id: pokemon.dataValues.id,
-      name: pokemon.dataValues.name,
-      hp: pokemon.dataValues.hp,
-      strength: pokemon.dataValues.strength,
-      defense: pokemon.dataValues.defense,
-      speed: pokemon.dataValues.speed,
-      height: pokemon.dataValues.height,
-      weight: pokemon.dataValues.weight,
-      image: "https://media.giphy.com/media/DRfu7BT8ZK1uo/giphy.gif",
-      type: pokemon.dataValues.Tipos.map((el) => el.name),
-    };
   });
+
+  const pokemonId = {
+    id: pokemon.dataValues.id,
+    name: pokemon.dataValues.name,
+    hp: pokemon.dataValues.hp,
+    strength: pokemon.dataValues.strength,
+    defense: pokemon.dataValues.defense,
+    speed: pokemon.dataValues.speed,
+    height: pokemon.dataValues.height,
+    weight: pokemon.dataValues.weight,
+    image: "https://media.giphy.com/media/DRfu7BT8ZK1uo/giphy.gif",
+    types: pokemon.dataValues.Tipos.map((el) => el.name),
+  };
+
+  console.log("ESTO ES ...", pokemonId);
 };
 
 module.exports = {
   InfoDetailPokeApi,
-  pokeCreatedDetail,
+
   pokeDetailName,
   getAllPokemons,
   pokemonDetail,
+  pokefind,
 };
