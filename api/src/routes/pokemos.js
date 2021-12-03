@@ -147,11 +147,9 @@ router.get("/", async (req, res) => {
 
   if (name) {
     let pokeName = await pokemons.filter(
-      (el) => el.name.toLowerCase() === name.toLowerCase()
+      (el) => el.name.toLowerCase().trim() === name.toLowerCase().trim()
     );
-    pokeName.length
-      ? res.status(200).send(pokeName)
-      : res.status(200).json([]);
+    pokeName.length ? res.status(200).send(pokeName) : res.status(200).json([]);
   } else {
     res.status(200).send(pokemons);
   }
