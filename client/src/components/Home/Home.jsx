@@ -89,7 +89,6 @@ export default function Home() {
       <div className={estilo.header}>
         <img src={logopokemon} alt="pokemons" width="130px" />
       </div>
-
       <div className={estilo.barra}>
         <SearchBar />
         <button
@@ -179,17 +178,24 @@ export default function Home() {
         ) : (
           <div>
             {currentPokemon.length ? (
-              <div className={estilo.pokeList}>
-                {currentPokemon.map((poke, index) => (
-                  <div className={estilo.card} key={index}>
-                    <Card
-                      name={poke.name}
-                      image={poke.image}
-                      type={poke.types}
-                      id={poke.id}
-                    />
-                  </div>
-                ))}
+              <div>
+                <div className={estilo.pokeList}>
+                  {currentPokemon.map((poke, index) => (
+                    <div className={estilo.card} key={index}>
+                      <Card
+                        name={poke.name}
+                        image={poke.image}
+                        type={poke.types}
+                        id={poke.id}
+                      />
+                    </div>
+                  ))}
+                </div>
+                <Paginado
+                  pokemonsPerPage={pokemonsPerPage}
+                  allPokemons={allPokemons.length}
+                  paginado={paginado}
+                />
               </div>
             ) : (
               <div className={estilo.noResult}>
@@ -205,11 +211,6 @@ export default function Home() {
           </div>
         )}
       </div>
-      <Paginado
-        pokemonsPerPage={pokemonsPerPage}
-        allPokemons={allPokemons.length}
-        paginado={paginado}
-      />
     </div>
   );
 }

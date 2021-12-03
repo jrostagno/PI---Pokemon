@@ -6,9 +6,10 @@ import fondo from "../../assets/./pokemonFondo1.jpg";
 export default function LandingPage() {
   return (
     <div className={estilo.landing}>
+      <h1>Welcome to Pokemon Henry's App...</h1>
       <Link to="/home">
         <img url={fondo} alt="" />
-        <button>Start</button>
+        <button className={estilo.startButton}>Start</button>
       </Link>
     </div>
   );

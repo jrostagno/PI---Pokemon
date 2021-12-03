@@ -12,3 +12,9 @@
   background: -webkit-linear-gradient(to right, #2c3e50, #bdc3c7);
   background: linear-gradient(to right, #2c3e50, #bdc3c7);
 }
+
+.botoneraContent {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}

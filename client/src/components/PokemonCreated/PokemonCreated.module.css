@@ -1,5 +1,8 @@
 .formContainer {
+  margin-top: 50px;
   display: flex;
+  flex-direction: column;
+  gap: 20px;
   background: #bdc3c7; /* fallback for old browsers */
   background: -webkit-linear-gradient(
     to right,
@@ -8,31 +11,12 @@
   ); /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(to right, #2c3e50, #bdc3c7);
 }
-.createButton {
-  min-width: 130px;
-  height: 40px;
-  color: #fff;
-  padding: 5px 10px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  position: relative;
-  display: inline-block;
-  outline: none;
-  border-radius: 20px;
-  border: 2px solid #ffd819;
-  background: #ffd819;
-}
-.createButton:hover {
-  background: #fff;
-  color: #ffd819;
-}
 
 .goBackButton {
-  min-width: 130px;
-  height: 40px;
+  min-width: 100px;
+  height: 25px;
   color: #fff;
-  padding: 5px 10px;
+  padding: 5px 5px;
   font-weight: bold;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -41,16 +25,40 @@
   outline: none;
   border-radius: 5px;
   border: none;
-  background: #ffe566;
-  box-shadow: 0 5px #ffd819;
+  box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, 0.5),
+    7px 7px 20px 0px rgba(0, 0, 0, 0.1), 4px 4px 5px 0px rgba(0, 0, 0, 0.1);
+  background: #495057;
 }
 .goBackButton:hover {
-  box-shadow: 0 3px #ffd819;
-  top: 1px;
+  background-color: #6c757d;
 }
 .goBackButton:active {
-  box-shadow: 0 0 #ffd819;
-  top: 5px;
+  top: 2px;
+}
+
+.createButton {
+  margin-top: 35px;
+  min-width: 100px;
+  height: 25px;
+  color: #fff;
+  padding: 5px 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  display: inline-block;
+  outline: none;
+  border-radius: 5px;
+  border: none;
+  box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, 0.5),
+    7px 7px 20px 0px rgba(0, 0, 0, 0.1), 4px 4px 5px 0px rgba(0, 0, 0, 0.1);
+  background: #495057;
+}
+.createButton:hover {
+  background-color: #6c757d;
+}
+.createButton:active {
+  top: 2px;
 }
 
 .input {
@@ -78,7 +86,7 @@
 
 .titleFrom {
   font-family: "Quicksand", sans-serif;
-  color: lightslategray;
+  color: white;
 }
 
 .buttonCheck {
@@ -89,4 +97,13 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+
+.header {
+  padding: 20px;
+
+  display: flex;
+  /* /* background: #bdc3c7;  */
+  background: -webkit-linear-gradient(to right, #2c3e50, #bdc3c7);
+  background: linear-gradient(to right, #2c3e50, #bdc3c7);
 }

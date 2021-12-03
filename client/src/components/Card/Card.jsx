@@ -6,7 +6,7 @@ export default function Card({ name, image, type, id }) {
   return (
     <Link to={"/home/" + id}>
       <div className={estilo.contentCard}>
-        <img src={image} alt="img not found" width="80px" height="70px" />
+        <img src={image} alt="img not found" width="95px" height="85px" />
 
         <div>
           {type.map((t, i) => {
