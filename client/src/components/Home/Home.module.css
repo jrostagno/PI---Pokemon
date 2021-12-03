@@ -1,21 +1,132 @@
 .pokeList {
-  max-width: 800px;
+  max-width: 850px;
   margin: auto;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   grid-gap: 24px;
-  padding: 20px;
+  padding: 25px;
 }
 
 .card {
   display: flex;
   justify-content: center;
+  border: 2px solid lightgrey;
+  border-radius: 5%;
+  padding: 20px;
+  width: 160px;
+
+  display: flex;
+  background: #bdc3c7; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #2c3e50,
+    #bdc3c7
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #2c3e50, #bdc3c7);
 }
 
-.header {
-  color: yellowgreen;
+.barra {
+  display: flex;
+  justify-content: space-around;
+}
+
+.filtros {
+  display: flex;
+  justify-content: center;
+}
+
+/* //BOTONES HOME  */
+
+.buttonHome {
+  min-width: 100px;
+  height: 25px;
+  color: #fff;
+  padding: 5px 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  display: inline-block;
+  outline: none;
+  border-radius: 5px;
+  border: none;
+  box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, 0.5),
+    7px 7px 20px 0px rgba(0, 0, 0, 0.1), 4px 4px 5px 0px rgba(0, 0, 0, 0.1);
+  background: #495057;
+}
+.buttonHome:hover {
+  background-color: #6c757d;
+}
+.buttonHome:active {
+  top: 2px;
+}
+
+/* BOTON DE CREADO  */
+
+.created {
+  min-width: 130px;
+  height: 35px;
+  color: #fff;
+  padding: 5px 10px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  display: inline-block;
+  outline: none;
+  border-radius: 5px;
+  z-index: 0;
+  background: #fff;
+  overflow: hidden;
+  border: 2px solid #adb5bd;
+  color: #adb5bd;
+}
+.created:hover {
+  color: #fff;
+}
+.created:after {
+  width: 100%;
+}
+.created:after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  transition: all 0.3s ease;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 100%;
+  background: #adb5bd;
+}
+
+.noResult {
+  display: flex;
+  justify-content: Center;
+  flex-direction: column;
+}
+
+.imgNotFound {
+  margin: auto;
 }
 
 .principal {
-  /* background-image: url("../../assets/dragon.jpg"); */
+  background: -webkit-linear-gradient(to right, #2c3e50, #bdc3c7);
+  background: linear-gradient(to right, #2c3e50, #bdc3c7);
+}
+
+/* HEADER */
+
+.header {
+  display: flex;
+  background: #bdc3c7; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #2c3e50,
+    #bdc3c7
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #2c3e50,
+    #bdc3c7
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }

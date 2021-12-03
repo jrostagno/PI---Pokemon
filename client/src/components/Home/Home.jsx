@@ -7,6 +7,9 @@ import Card from "../Card/Card";
 import Paginado from "../Paginado/Paginado";
 import SearchBar from "../SearchBar/SearchBar";
 import estilo from "./Home.module.css";
+import noresult from "../../assets/./notFound.gif";
+import loading from "../../assets/./loading.gif";
+import logopokemon from "../../assets/./logoPokemon.png";
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -23,7 +26,6 @@ export default function Home() {
   // definimos estados Locales
   const [currentPage, setCurrentPage] = useState(1); // guardamos en un estado local la pagina actual y esta seteada en 1 porque arranca en la primer pagina
   const pokemonsPerPage = 12; // este estado local va a setear cuandos poke se cargan con pagina
-
   const indexOfLastPokemon = currentPage * pokemonsPerPage;
   const indexOfFirstPokemon = indexOfLastPokemon - pokemonsPerPage;
   const currentPokemon = allPokemons.slice(
@@ -43,7 +45,7 @@ export default function Home() {
     if (!pokeTypes.length) {
       dispatch(getTypes());
     }
-  }, [dispatch, allPokemons.length, pokeTypes.length]);
+  }, [dispatch, pokeTypes.length]);
 
   function handleClick(e) {
     e.preventDefault();
@@ -84,107 +86,130 @@ export default function Home() {
 
   return (
     <div className={estilo.principal}>
-      <h1 className={estilo.header}>GO POKEMONS</h1>
+      <div className={estilo.header}>
+        <img src={logopokemon} alt="pokemons" width="130px" />
+      </div>
 
-      <Link to="/pokemons">Crear Personaje</Link>
-      <button
-        onClick={(e) => {
-          handleClick(e);
-        }}
-      >
-        Cargar todos personajes nuevamente
-      </button>
-
-      <button
-        type="button"
-        onClick={(e) => {
-          handleClickAplicar(e);
-        }}
-      >
-        APLICAR
-      </button>
-      <button
-        type="button"
-        onClick={(e) => {
-          handleClickReset(e);
-        }}
-      >
-        RESET
-      </button>
-
-      <div>
-        <select
-          onChange={(e) => {
-            handleSort(e);
-          }}
-          value={sortingBy}
-        >
-          <option value="All">Select by...</option>
-          <option value="asc">Ascending A-Z</option>
-          <option value="des">Descending Z-A</option>
-          <option value="hight">Hight Strength</option>
-          <option value="low">Low Strength</option>
-        </select>
-
-        <select
-          onChange={(e) => {
-            handleOnChangeCreated(e);
-          }}
-          value={filterByPokedex}
-        >
-          <option value="All">All</option>
-          <option value="Created">Created</option>
-          <option value="Pokedex">Pokedex</option>
-        </select>
-
-        <select
-          onChange={(e) => {
-            handleOnChangeFiltertype(e);
-          }}
-          value={filterByType}
-        >
-          <option value="All">Types..</option>
-          {pokeTypes
-            .sort((a, b) => {
-              if (a.name < b.name) return -1;
-              if (a.name > b.name) return 1;
-              return 0;
-            })
-            .map((t) => (
-              <option value={t.name} key={t.name}>
-                {t.name}
-              </option>
-            ))}
-        </select>
-
-        <Paginado
-          pokemonsPerPage={pokemonsPerPage}
-          allPokemons={allPokemons.length}
-          paginado={paginado}
-        />
-
+      <div className={estilo.barra}>
         <SearchBar />
+        <button
+          className={estilo.buttonHome}
+          onClick={(e) => {
+            handleClick(e);
+          }}
+        >
+          Reload..
+        </button>
+
+        <Link to="/pokemons">
+          <button className={estilo.created}>Create your Poke...</button>
+        </Link>
+      </div>
+      <br></br>
+      <div>
+        <div className={estilo.filtros}>
+          <select
+            onChange={(e) => {
+              handleSort(e);
+            }}
+            value={sortingBy}
+          >
+            <option value="All">Select by...</option>
+            <option value="asc">Ascending A-Z</option>
+            <option value="des">Descending Z-A</option>
+            <option value="hight">Hight Strength</option>
+            <option value="low">Low Strength</option>
+          </select>
+
+          <select
+            onChange={(e) => {
+              handleOnChangeCreated(e);
+            }}
+            value={filterByPokedex}
+          >
+            <option value="All">All</option>
+            <option value="Created">Created</option>
+            <option value="Pokedex">Pokedex</option>
+          </select>
+
+          <select
+            onChange={(e) => {
+              handleOnChangeFiltertype(e);
+            }}
+            value={filterByType}
+          >
+            <option value="All">Types..</option>
+            {pokeTypes
+              .sort((a, b) => {
+                if (a.name < b.name) return -1;
+                if (a.name > b.name) return 1;
+                return 0;
+              })
+              .map((t) => (
+                <option value={t.name} key={t.name}>
+                  {t.name}
+                </option>
+              ))}
+          </select>
+          <button
+            className={estilo.buttonHome}
+            type="button"
+            onClick={(e) => {
+              handleClickAplicar(e);
+            }}
+          >
+            Apply
+          </button>
+          <button
+            className={estilo.buttonHome}
+            type="button"
+            onClick={(e) => {
+              handleClickReset(e);
+            }}
+          >
+            Reset
+          </button>
+        </div>
+
         {isLoading ? (
-          <h1>Cargando pokemones...</h1>
+          <div className={estilo.loading}>
+            <img src={loading} alt="loagin" width="200px" />
+            <h1>Loading Pokemons...</h1>
+          </div>
         ) : (
-          <div className={estilo.pokeList}>
+          <div>
             {currentPokemon.length ? (
-              currentPokemon.map((poke, index) => (
-                <div className={estilo.card} key={index}>
-                  <Card
-                    name={poke.name}
-                    image={poke.image}
-                    type={poke.types}
-                    id={poke.id}
-                  />
-                </div>
-              ))
+              <div className={estilo.pokeList}>
+                {currentPokemon.map((poke, index) => (
+                  <div className={estilo.card} key={index}>
+                    <Card
+                      name={poke.name}
+                      image={poke.image}
+                      type={poke.types}
+                      id={poke.id}
+                    />
+                  </div>
+                ))}
+              </div>
             ) : (
-              <h1>No results</h1>
+              <div className={estilo.noResult}>
+                <img
+                  className={estilo.imgNotFound}
+                  src={noresult}
+                  alt="not found"
+                  width="200px"
+                />
+                <h1>Sorry Poke Not found...</h1>
+              </div>
             )}
           </div>
         )}
       </div>
+      <Paginado
+        pokemonsPerPage={pokemonsPerPage}
+        allPokemons={allPokemons.length}
+        paginado={paginado}
+      />
     </div>
   );
 }

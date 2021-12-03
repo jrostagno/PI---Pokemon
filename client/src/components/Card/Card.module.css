@@ -2,8 +2,8 @@
   margin-right: 8px;
   font-size: 15;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  text-decoration: none;
-  color: #6bf7f7 border 1 px solid green;
+
+  color: white;
   border: rgb(8, 1, 1);
   border-radius: 4;
   padding: 4;
@@ -11,4 +11,12 @@
 
 .contenTag {
   border: rgb(8, 1, 1);
+}
+
+.contentCard {
+  color: white;
+}
+
+a {
+  text-decoration: none;
 }

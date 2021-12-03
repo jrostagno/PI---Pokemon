@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { getNamePoke } from "../../actions";
+import estilo from "../Home/Home.module.css";
 
 export default function SearchBar() {
   const dispatch = useDispatch();
@@ -9,20 +10,19 @@ export default function SearchBar() {
   const [name, setName] = useState("");
 
   function handleInputChange(e) {
-    e.preventDefault();
     setName(e.target.value);
   }
 
   function handleSubmit(e) {
     e.preventDefault();
     dispatch(getNamePoke(name));
-    setName(e.target.value);
-    
+    setName("");
   }
 
   return (
     <div>
       <input
+        value={name}
         type="text"
         placeholder="Search..."
         onChange={(e) => {
@@ -30,6 +30,7 @@ export default function SearchBar() {
         }}
       />
       <button
+        className={estilo.buttonHome}
         type="submit"
         onClick={(e) => {
           handleSubmit(e);

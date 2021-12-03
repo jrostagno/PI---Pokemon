@@ -18,60 +18,67 @@ export default function Details(props) {
   return (
     <div className={estilo.contenedorDetail}>
       {myPoke.id ? (
-        <div>
-          <h1> Name : {myPoke.name}</h1>
-          <h2> Id: {myPoke.id}</h2>
-          <img src={myPoke.image} alt="" width="300px" height="400px" />
+        <div className={estilo.innerContent}>
           <div>
-            {myPoke.types.map((t, i) => {
-              return <h3 key={i}>{t}</h3>;
-            })}
+            <h1 style={{ margin: 0 }}> Name : {myPoke.name}</h1>
+            <h2 style={{ margin: 0 }}> Id: {myPoke.id}</h2>
+            <img src={myPoke.image} alt="" width="300px" />
+            <div>
+              {myPoke.types.map((t, i) => {
+                return (
+                  <span style={{ marginRight: 10 }} key={i}>
+                    {t}
+                  </span>
+                );
+              })}
+            </div>
           </div>
           <div>
-            <span>hp: {myPoke.hp}</span>
-          </div>
-          <progress max="200" value={myPoke.hp}>
-            {myPoke.hp}
-          </progress>
-          <div>
-            <span>Strength: {myPoke.strength}</span>
-          </div>
-          <progress max="200" value={myPoke.strength}>
-            {myPoke.strength}
-          </progress>
-          <div>
-            <span>Defense: {myPoke.defense}</span>
-          </div>
-          <progress max="200" value={myPoke.defense}>
-            {myPoke.defense}
-          </progress>
-          <div>
-            <span>Sepeed: {myPoke.speed}</span>
-          </div>
-          <progress max="200" value={myPoke.speed}>
-            {myPoke.speed}
-          </progress>
-          <div>
-            <span>Height: {myPoke.height}</span>
-          </div>
-          <progress max="150" value={myPoke.height}>
-            {myPoke.height}
-          </progress>
+            <div className={estilo.contenedorProps}>
+              <span>hp: {myPoke.hp}</span>
+            </div>
+            <progress max="200" value={myPoke.hp}>
+              {myPoke.hp}
+            </progress>
+            <div>
+              <span>Strength: {myPoke.strength}</span>
+            </div>
+            <progress max="200" value={myPoke.strength}>
+              {myPoke.strength}
+            </progress>
+            <div>
+              <span>Defense: {myPoke.defense}</span>
+            </div>
+            <progress max="200" value={myPoke.defense}>
+              {myPoke.defense}
+            </progress>
+            <div>
+              <span>Sepeed: {myPoke.speed}</span>
+            </div>
+            <progress max="200" value={myPoke.speed}>
+              {myPoke.speed}
+            </progress>
+            <div>
+              <span>Height: {myPoke.height}</span>
+            </div>
+            <progress max="150" value={myPoke.height}>
+              {myPoke.height}
+            </progress>
 
-          <div>
-            <span>Weight: {myPoke.weight}</span>
+            <div>
+              <span>Weight: {myPoke.weight}</span>
+            </div>
+            <progress max="1020" value={myPoke.weight}>
+              {myPoke.weight}
+            </progress>
           </div>
-          <progress max="1020" value={myPoke.weight}>
-            {myPoke.weight}
-          </progress>
+          <Link to="/home">
+            <button>Go Back !! </button>
+          </Link>
         </div>
       ) : (
         <p>Loading...</p>
       )}
-
-      <Link to="/home">
-        <button>Go Back !! </button>
-      </Link>
     </div>
   );
 }

@@ -1,5 +1,7 @@
 .App {
   text-align: center;
+  text-decoration: none;
+  font-family: "Changa", sans-serif;
 }
 
 .App-logo {
