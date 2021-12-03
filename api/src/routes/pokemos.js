@@ -16,40 +16,45 @@ router.get("/:idPokemon", async (req, res) => {
   // console.log("ENTROOOOOOO ", req);
   const { idPokemon } = req.params;
 
-  if (idPokemon.length < 5) {
-    const detail = await pokemonDetail(idPokemon);
-    // console.log('ENTREO LINEA 17')
-    detail
-      ? res.status(200).send(detail)
-      : res.status(404).send("Pokemon Not found");
-  } else {
-    const pokemon = await Pokemon.findOne({
-      where: { id: idPokemon },
-      include: {
-        model: Tipo,
-        attributes: ["name"],
-        through: {
-          attributes: [],
+  try {
+    if (idPokemon.length < 5) {
+      const detail = await pokemonDetail(idPokemon);
+      // console.log('ENTREO LINEA 17')
+      detail
+        ? res.status(200).send(detail)
+        : res.status(404).send("Pokemon Not found");
+    } else {
+      const pokemon = await Pokemon.findOne({
+        where: { id: idPokemon },
+        include: {
+          model: Tipo,
+          attributes: ["name"],
+          through: {
+            attributes: [],
+          },
         },
-      },
-    });
+      });
 
-    const pokemonId = {
-      id: pokemon.dataValues.id,
-      name: pokemon.dataValues.name,
-      hp: pokemon.dataValues.hp,
-      strength: pokemon.dataValues.strength,
-      defense: pokemon.dataValues.defense,
-      speed: pokemon.dataValues.speed,
-      height: pokemon.dataValues.height,
-      weight: pokemon.dataValues.weight,
-      image: "https://media.giphy.com/media/DRfu7BT8ZK1uo/giphy.gif",
-      types: pokemon.dataValues.Tipos.map((el) => el.name),
-    };
+      const pokemonId = {
+        id: pokemon.dataValues.id,
+        name: pokemon.dataValues.name,
+        hp: pokemon.dataValues.hp,
+        strength: pokemon.dataValues.strength,
+        defense: pokemon.dataValues.defense,
+        speed: pokemon.dataValues.speed,
+        height: pokemon.dataValues.height,
+        weight: pokemon.dataValues.weight,
+        image: "https://media.giphy.com/media/DRfu7BT8ZK1uo/giphy.gif",
+        types: pokemon.dataValues.Tipos.map((el) => el.name),
+      };
 
-    pokemonId.id
-      ? res.status(200).send(pokemonId)
-      : res.status(404).send("Pokemon Not Found");
+      pokemonId.id
+        ? res.status(200).send(pokemonId)
+        : res.status(404).send("Pokemon Not Found");
+    }
+  } catch (err) {
+    console.log(err);
+    return {};
   }
 });
 

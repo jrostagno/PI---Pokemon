@@ -98,28 +98,32 @@ const InfoDetailPokeApi = async () => {
 // FUNCION NOS DA EL DETALLE DE UN POKEMON DE API EN PARTICULAR  POR ID
 
 const pokemonDetail = async (idPokemon) => {
-  const pokemon = await axios.get(
-    `https://pokeapi.co/api/v2/pokemon/${idPokemon}`
-  );
-  // console.log(pokemon);
-  if (pokemon) {
-    const data = pokemon.data;
+  try {
+    const pokemon = await axios.get(
+      `https://pokeapi.co/api/v2/pokemon/${idPokemon}`
+    );
 
-    const pokeID = {
-      id: data.id,
-      name: data.name,
-      hp: data.stats[0].base_stat,
-      strength: data.stats[1].base_stat,
-      defense: data.stats[2].base_stat,
-      speed: data.stats[5].base_stat,
-      height: data.height,
-      weight: data.weight,
-      image: data.sprites.front_default,
-      types: data.types.map((el) => el.type.name),
-    };
+    if (pokemon) {
+      const data = pokemon.data;
 
-    return pokeID;
-  } else {
+      const pokeID = {
+        id: data.id,
+        name: data.name,
+        hp: data.stats[0].base_stat,
+        strength: data.stats[1].base_stat,
+        defense: data.stats[2].base_stat,
+        speed: data.stats[5].base_stat,
+        height: data.height,
+        weight: data.weight,
+        image: data.sprites.front_default,
+        types: data.types.map((el) => el.type.name),
+      };
+
+      return pokeID;
+    } else {
+      return {};
+    }
+  } catch (err) {
     return {};
   }
 };
