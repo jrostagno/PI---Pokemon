@@ -148,15 +148,21 @@ router.get("/:idPokemon", async (req, res) => {
 router.get("/", async (req, res) => {
   const { name } = req.query;
 
-  let pokemons = await getAllPokemons();
+  try {
+    let pokemons = await getAllPokemons();
 
-  if (name) {
-    let pokeName = await pokemons.filter(
-      (el) => el.name.toLowerCase().trim() === name.toLowerCase().trim()
-    );
-    pokeName.length ? res.status(200).send(pokeName) : res.status(200).json([]);
-  } else {
-    res.status(200).send(pokemons);
+    if (name) {
+      let pokeName = await pokemons.filter(
+        (el) => el.name.toLowerCase().trim() === name.toLowerCase().trim()
+      );
+      pokeName.length
+        ? res.status(200).send(pokeName)
+        : res.status(200).json([]);
+    } else {
+      res.status(200).send(pokemons);
+    }
+  } catch (err) {
+    console.log(err);
   }
 });
 
@@ -219,42 +225,45 @@ router.get("/", async (req, res) => {
 // POST
 
 router.post("/", async (req, res) => {
-  const {
-    name,
-    hp,
-    strength,
-    defense,
-    speed,
-    height,
-    weight,
-    type,
-    createInDataBase,
-  } = req.body;
-  //console.log('ESTEEEEEEEEE' , req.body)
+  try {
+    const {
+      name,
+      hp,
+      strength,
+      defense,
+      speed,
+      height,
+      weight,
+      type,
+      createInDataBase,
+    } = req.body;
 
-  if (!name) return res.status(404).send("Name is a mandatory!");
+    if (!name) return res.status(404).send("Name is a mandatory!");
 
-  let pokemonCreated = await Pokemon.create({
-    name: name.trim(), // elimina los espacios al inicio y al final de la palabra ''fede villa   "" = "fede villa"
-    hp,
-    strength,
-    defense,
-    speed,
-    height,
-    weight,
-    createInDataBase,
-    // image:
-    //   "https://upload.wikimedia.org/wikipedia/commons/5/51/Pokebola-pokeball-png-0.png",
-  });
+    let pokemonCreated = await Pokemon.create({
+      name: name.trim(),
+      hp,
+      strength,
+      defense,
+      speed,
+      height,
+      weight,
+      createInDataBase,
+      // image:
+      //   "https://upload.wikimedia.org/wikipedia/commons/5/51/Pokebola-pokeball-png-0.png",
+    });
 
-  // dentro de tipo busco todos los tipos que conicida con lo q estoy pasando por BODY
-  let typeDb = await Tipo.findAll({
-    where: { name: type },
-  });
-  // metodo me trae de la tabla Tipo el tipo que le estoy pasando y se lo agrega
-  pokemonCreated.addTipo(typeDb);
+    // dentro de tipo busco todos los tipos que conicida con lo q estoy pasando por BODY
+    let typeDb = await Tipo.findAll({
+      where: { name: type },
+    });
+    // metodo me trae de la tabla Tipo el tipo que le estoy pasando y se lo agrega
+    pokemonCreated.addTipo(typeDb);
 
-  res.status(200).send("Pokemon created successfully");
+    res.status(200).send("Pokemon created successfully");
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 module.exports = router;

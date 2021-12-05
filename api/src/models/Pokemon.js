@@ -33,11 +33,11 @@ module.exports = (sequelize) => {
     },
 
     height: {
-      type: DataTypes.FLOAT,
+      type: DataTypes.DECIMAL,
     },
 
     weight: {
-      type: DataTypes.FLOAT,
+      type: DataTypes.DECIMAL,
     },
     // image: {
     //   type: DataTypes.STRING,
