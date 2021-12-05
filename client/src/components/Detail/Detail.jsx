@@ -71,14 +71,14 @@ export default function Details(props) {
                 <div>
                   <span>Height: {myPoke.height}</span>
                 </div>
-                <progress max="150" value={myPoke.height}>
+                <progress max="250" value={myPoke.height}>
                   {myPoke.height}
                 </progress>
 
                 <div>
                   <span>Weight: {myPoke.weight}</span>
                 </div>
-                <progress max="1020" value={myPoke.weight}>
+                <progress max="200" value={myPoke.weight}>
                   {myPoke.weight}
                 </progress>
               </div>

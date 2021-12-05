@@ -32,8 +32,6 @@ export default function PokemonCreated() {
 
   const pokeTypes = useSelector((state) => state.pokeTypes);
 
-  const [errors, setErrors] = useState({});
-
   const [input, setInput] = useState({
     name: "",
     hp: "",
@@ -64,7 +62,6 @@ export default function PokemonCreated() {
   }
 
   function handleSubmitPost(e) {
-    console.log("HOLAAAAAAAA");
     e.preventDefault();
     const errors = validate(input);
 
@@ -200,7 +197,7 @@ export default function PokemonCreated() {
           </div>
           <div>
             <label className={estilo.formLabels}>Choose type! </label>
-            {errors.type && <p>{errors.type}</p>}
+
             <select onChange={(e) => handleSelect(e)} name="type">
               {pokeTypes.map((t, i) => {
                 return (
