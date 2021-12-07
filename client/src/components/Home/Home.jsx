@@ -23,10 +23,10 @@ export default function Home() {
   const [filterByType, setFilterByType] = useState("All");
 
   // PAGINADO
-  // definimos estados Locales
+
   const [currentPage, setCurrentPage] = useState(1); // guardamos en un estado local la pagina actual y esta seteada en 1 porque arranca en la primer pagina
-  const pokemonsPerPage = 12; // este estado local va a setear cuandos poke se cargan con pagina
-  const indexOfLastPokemon = currentPage * pokemonsPerPage;
+  const pokemonsPerPage = 12;
+  const indexOfLastPokemon = currentPage * pokemonsPerPage; /// allpkemons.slice(0,12) // allpkemons.slice(12,24)
   const indexOfFirstPokemon = indexOfLastPokemon - pokemonsPerPage;
   const currentPokemon = allPokemons.slice(
     indexOfFirstPokemon,
@@ -37,7 +37,6 @@ export default function Home() {
     setCurrentPage(pageNumber);
   };
 
-  // nos traemos el ilstados de pokemons cuando el componente se monta // enl segundo argumento se pasa de lo que depnde ese useEfffect (si dependo del dispach le paso el dispach, montate y ejecutate siempre y cuando lo tengas )
   useEffect(() => {
     if (!allPokemons.length) {
       dispatch(getPokemons());
@@ -45,6 +44,8 @@ export default function Home() {
     if (!pokeTypes.length) {
       dispatch(getTypes());
     }
+    ////  --->esto permite eliminar los warning de dependencias !
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, pokeTypes.length]);
 
   function handleClick(e) {
