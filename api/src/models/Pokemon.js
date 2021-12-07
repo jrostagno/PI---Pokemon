@@ -39,9 +39,6 @@ module.exports = (sequelize) => {
     weight: {
       type: DataTypes.DECIMAL,
     },
-    // image: {
-    //   type: DataTypes.STRING,
-    // },
 
     createInDataBase: {
       type: DataTypes.BOOLEAN,

@@ -3,7 +3,6 @@ const router = Router();
 
 const { Tipo } = require("../db.js");
 const axios = require("axios");
-const { getOnlyPokeApi } = require("../functions/functions.js");
 
 // GET TYPES
 

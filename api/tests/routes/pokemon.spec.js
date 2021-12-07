@@ -25,11 +25,10 @@ const pokemon = {
 
 describe("Rutas types", () => {
   describe("GET /types", () => {
-    it("se espera una respuesta 200", () => agent.get("/types").expect(200));
+    it("is expected 200  replay", () => agent.get("/types").expect(200));
   });
 });
 
 describe("GET /pokemons/:id", () => {
-  it("Se espera una respuesta 200 se si pasa un id", () =>
-    agent.get("/pokemons/10").expect(200));
+  it("is expected 200 replay", () => agent.get("/pokemons/10").expect(200));
 });
