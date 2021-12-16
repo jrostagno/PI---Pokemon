@@ -1,15 +1,18 @@
 .formContainer {
-  margin-top: 50px;
+  width: auto;
+  height: 100vh;
+
+  position: relative;
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position: center;
+
   display: flex;
   flex-direction: column;
   gap: 20px;
-  background: #bdc3c7; /* fallback for old browsers */
-  background: -webkit-linear-gradient(
-    to right,
-    #2c3e50,
-    #bdc3c7
-  ); /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #2c3e50, #bdc3c7);
+  background: #8fb9a8;
+
+  /* background: linear-gradient(to right, #010f1d, #2e0a3a); */
 }
 
 .goBackButton {
@@ -19,6 +22,7 @@
   padding: 5px 5px;
   font-weight: bold;
   cursor: pointer;
+  right: 45px;
   transition: all 0.3s ease;
   position: relative;
   display: inline-block;
@@ -50,6 +54,7 @@
   outline: none;
   border-radius: 5px;
   border: none;
+  right: 45px;
   box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, 0.5),
     7px 7px 20px 0px rgba(0, 0, 0, 0.1), 4px 4px 5px 0px rgba(0, 0, 0, 0.1);
   background: #495057;
@@ -72,13 +77,14 @@
 }
 
 .input:focus {
-  background: rgba(0, 0, 0, 0.1);
+  /* background: rgba(0, 0, 0, 0.1); */
   border-radius: 5px;
   outline: none;
 }
 
 .formLabels {
   width: 90px;
+  color: rgb(70, 63, 63);
   font-weight: bold;
   display: inline-block;
   font-family: "Quicksand", sans-serif;
@@ -86,17 +92,24 @@
 
 .titleFrom {
   font-family: "Quicksand", sans-serif;
-  color: white;
+  color: #f1828dcd;
+  text-shadow: 2px 2px 2px black;
+  position: relative;
+  right: 45px;
 }
 
 .buttonCheck {
-  margin-bottom: 12px;
   cursor: pointer;
   font-size: 22px;
+
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+
+.nameType {
+  color: white;
 }
 
 .header {
@@ -104,6 +117,6 @@
 
   display: flex;
   /* /* background: #bdc3c7;  */
-  background: -webkit-linear-gradient(to right, #2c3e50, #bdc3c7);
-  background: linear-gradient(to right, #2c3e50, #bdc3c7);
+  background: #8fb9a8;
+  /* background: linear-gradient(to right, #010f1d, #2e0a3a); */
 }

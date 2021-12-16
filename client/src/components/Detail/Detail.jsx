@@ -14,7 +14,7 @@ export default function Details(props) {
 
   useEffect(() => {
     dispatch(getDetail(props.match.params.id));
-    return () => dispatch(resetDetail());
+    return () => dispatch(resetDetail()); /// se willUnmount
   }, [dispatch, props.match.params.id]);
 
   return (
@@ -24,7 +24,7 @@ export default function Details(props) {
       </div>
       <div className={estilo.contenedorDetail}>
         {isLoading ? (
-          <p>Loading...</p>
+          <p className={estilo.loading}>Loading...</p>
         ) : myPoke.id ? (
           <div>
             <div className={estilo.innerContent}>

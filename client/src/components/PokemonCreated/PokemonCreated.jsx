@@ -219,7 +219,7 @@ export default function PokemonCreated() {
                     >
                       x
                     </button>
-                    <span>{el}</span>
+                    <span className={estilo.nameType}>{el}</span>
                   </div>
                 );
               })}

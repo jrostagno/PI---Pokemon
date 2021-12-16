@@ -206,7 +206,7 @@ export default function Home() {
                   alt="not found"
                   width="200px"
                 />
-                <h1>Sorry Poke Not found...</h1>
+                <h1 className={estilo.notfound}>Sorry Poke Not found...</h1>
               </div>
             )}
           </div>

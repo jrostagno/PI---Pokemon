@@ -30,3 +30,4 @@ describe("<LangindPage />", () => {
     expect(land.find("button").text()).toEqual("Start");
   });
 });
+a;
