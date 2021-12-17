@@ -16,7 +16,7 @@ export function getPokemons() {
     dispatch({
       type: GET_POKEMONS_INIT,
     });
-    let json = await axios.get("http://localhost:3001/pokemons");
+    let json = await axios.get(`${process.env.BACKEND_URL}/pokemons`);
 
     return dispatch({
       type: GET_POKEMONS,
@@ -27,7 +27,7 @@ export function getPokemons() {
 
 export function getTypes() {
   return async function (dispach) {
-    let json = await axios.get("http://localhost:3001/types");
+    let json = await axios.get(`${process.env.BACKEND_URL}/types`);
 
     return dispach({
       type: GET_TYPES,
@@ -43,7 +43,9 @@ export function getNamePoke(name) {
         type: GET_POKEMONS_INIT,
       });
 
-      let json = await axios.get(`http://localhost:3001/pokemons?name=${name}`);
+      let json = await axios.get(
+        `${process.env.BACKEND_URL}/pokemons?name=${name}`
+      );
       return dispatch({
         type: GET_NAME_POKE,
         payload: json.data,
@@ -57,7 +59,7 @@ export function getNamePoke(name) {
 export function postPokemon(payload) {
   return async function (dispatch) {
     const response = await axios.post(
-      "http://localhost:3001/pokemons",
+      `${process.env.BACKEND_URL}/pokemons`,
       payload
     );
 
@@ -71,7 +73,7 @@ export function getDetail(id) {
       dispatch({
         type: GET_POKEMONS_INIT,
       });
-      let json = await axios.get(`http://localhost:3001/pokemons/${id}`);
+      let json = await axios.get(`${process.env.BACKEND_URL}/pokemons/${id}`);
       return dispatch({
         type: GET_DETAILS,
         payload: json.data,
