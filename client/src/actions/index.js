@@ -16,7 +16,7 @@ export function getPokemons() {
     dispatch({
       type: GET_POKEMONS_INIT,
     });
-    let json = await axios.get(`${process.env.BACKEND_URL}/pokemons`);
+    let json = await axios.get("https://pokedex-henry.herokuapp.com/pokemons");
 
     return dispatch({
       type: GET_POKEMONS,
@@ -27,7 +27,7 @@ export function getPokemons() {
 
 export function getTypes() {
   return async function (dispach) {
-    let json = await axios.get(`${process.env.BACKEND_URL}/types`);
+    let json = await axios.get(`https://pokedex-henry.herokuapp.com/types`);
 
     return dispach({
       type: GET_TYPES,
@@ -44,7 +44,7 @@ export function getNamePoke(name) {
       });
 
       let json = await axios.get(
-        `${process.env.BACKEND_URL}/pokemons?name=${name}`
+        `https://pokedex-henry.herokuapp.com/pokemons?name=${name}`
       );
       return dispatch({
         type: GET_NAME_POKE,
@@ -59,7 +59,7 @@ export function getNamePoke(name) {
 export function postPokemon(payload) {
   return async function (dispatch) {
     const response = await axios.post(
-      `${process.env.BACKEND_URL}/pokemons`,
+      `https://pokedex-henry.herokuapp.com/pokemons`,
       payload
     );
 
@@ -73,7 +73,9 @@ export function getDetail(id) {
       dispatch({
         type: GET_POKEMONS_INIT,
       });
-      let json = await axios.get(`${process.env.BACKEND_URL}/pokemons/${id}`);
+      let json = await axios.get(
+        `https://pokedex-henry.herokuapp.com/pokemons/${id}`
+      );
       return dispatch({
         type: GET_DETAILS,
         payload: json.data,
