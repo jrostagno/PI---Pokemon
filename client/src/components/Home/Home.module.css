@@ -10,18 +10,22 @@
 .card {
   display: flex;
   justify-content: center;
-  border: 2px solid lightgrey;
+  border: 2.5px solid whitesmoke;
   border-radius: 5%;
   padding: 20px;
   width: 230px;
 
   display: flex;
-  background: #bdc3c7; /* fallback for old browsers */
+
   /* Chrome 10-25, Safari 5.1-6 */
 
-  background: #fefad47e;
-  /* background: linear-gradient(to right, #252e38, #74787b); */
-  box-shadow: 3px 3px 3px rgba(0, 0, 0, 2);
+  /* background: #fefad47e; */
+
+  background: #bdc3c7;
+  background: -webkit-linear-gradient(to right, #2c3e50, #bdc3c7);
+  background: linear-gradient(to right, #2c3e50, #bdc3c7);
+
+  box-shadow: 3px 3px 3px rgba(3, 0, 0, 2);
 }
 
 .card:hover {
@@ -127,18 +131,29 @@
   background-repeat: no-repeat;
   background-position: center;
 
-  background: #8fb9a8;
-  /* 
-  background: linear-gradient(to right, #010f1d, #2e0a3a); */
+  /* background: #8fb9a8; */
+
+  background: #4b79a1;
+  background: -webkit-linear-gradient(to right, #283e51, #4b79a1);
+  background: linear-gradient(to right, #283e51, #4b79a1);
+
+  /* background: #000000;
+  background: -webkit-linear-gradient(to right, #434343, #000000);
+  background: linear-gradient(to right, #434343, #000000); */
 }
 
 .header {
   padding: 20px;
 
   display: flex;
-  /* /* background: #bdc3c7;  */
-  background: #8fb9a8;
-  /* background: linear-gradient(to right, #010f1d, #2e0a3a); */
+
+  background: #4b79a1;
+  background: -webkit-linear-gradient(to right, #283e51, #4b79a1);
+  background: linear-gradient(to right, #283e51, #4b79a1);
+
+  /* /* background: #000000;
+  background: -webkit-linear-gradient(to right, #434343, #000000);
+  background: linear-gradient(to right, #434343, #000000); */
 }
 
 .loading {
