@@ -113,3 +113,25 @@ You have to replace postgresuser and postgrespassword with your own credentials 
 
 - Inside api folder, run the command line, npm start.
 - Inside client folder, run the command line, npm start.
+
+<h3>Project Screen</h3>
+<hr>
+<ul>
+<li>
+Landing Page
+</li>
+</ul>
+<img src="./api/assetsBack/landing.png"  >
+<br>
+<ul>
+<li>
+Home Page , includes selectors for alphabetical order (A-Z| Z-A), strength pokemon level(Low-hight | hight-low), and filters by created pokemon and from API (pokedex ) and by pokemon Type, all cumulative. also includes a search bar,paging buttons, reset and apply buttons for filters, and a button to redirect to the controlled form.
+</li>
+</ul>
+<img src="./api/assetsBack/home1.png" >
+<ul>
+<li>
+Controlled form to create pokemon
+</li>
+</ul>
+<img src="./api/assetsBack/form1.png" >
