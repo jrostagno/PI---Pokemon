@@ -135,3 +135,9 @@ Controlled form to create pokemon
 </li>
 </ul>
 <img src="./api/assetsBack/form1.png" >
+<ul>
+<li>
+Pokemon Detail, with go back button to redirect to home page.
+</li>
+</ul>
+<img src="./api/assetsBack/detail1.png" >
